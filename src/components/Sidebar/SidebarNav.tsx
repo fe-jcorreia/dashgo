@@ -23,7 +23,7 @@ export function SidebarNav() {
         <NavLink icon={RiInputMethodLine} href="/forms">
           Formulários
         </NavLink>
-        <NavLink icon={RiGitMergeLine} href="automation">
+        <NavLink icon={RiGitMergeLine} href="/automation">
           Automação
         </NavLink>
       </NavSection>
