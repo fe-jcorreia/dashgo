@@ -1,25 +1,51 @@
-import { Button } from "@chakra-ui/button";
-import { Checkbox } from "@chakra-ui/checkbox";
-import Icon from "@chakra-ui/icon";
-import { Box, Flex, Heading, LinkBox, Text } from "@chakra-ui/layout";
+import {
+  Box,
+  Flex,
+  Heading,
+  Link as ChakraLink,
+  Text,
+  Icon,
+  Checkbox,
+  Button,
+  Table,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  Spinner,
+} from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/media-query";
-import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/table";
 import Link from "next/link";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
-import { Spinner } from "@chakra-ui/spinner";
-import { useUsers } from "../../services/hooks/useUsers";
+import { getUsers, useUsers } from "../../services/hooks/useUsers";
 import { useState } from "react";
-import { QueryClient } from "react-query";
+import { queryClient } from "../../services/QueryClient";
+import { api } from "../../services/api";
+import { GetServerSideProps } from "next";
 
 export default function UserList() {
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching, error } = useUsers(page);
 
   const isWideVersion = useBreakpointValue({ base: false, lg: true });
+
+  async function handlePrefetchUser(userId: number) {
+    await queryClient.prefetchQuery(
+      ["user", userId],
+      async () => {
+        const response = await api.get(`users/${userId}`);
+        return response.data;
+      },
+      {
+        staleTime: 1000 * 60 * 10, // 10 minutes
+      }
+    );
+  }
 
   return (
     <Box>
@@ -80,12 +106,12 @@ export default function UserList() {
                         </Td>
                         <Td>
                           <Box>
-                            <LinkBox
+                            <ChakraLink
                               color="purple.400"
                               onMouseEnter={() => handlePrefetchUser(user.id)}
                             >
                               <Text fontWeight="bold">{user.name}</Text>
-                            </LinkBox>
+                            </ChakraLink>
                             <Text fontSize="sm" color="gray.300">
                               {user.email}
                             </Text>

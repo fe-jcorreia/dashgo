@@ -1,8 +1,8 @@
-import { useQuery } from "react-query";
+import { useQuery, UseQueryOptions } from "react-query";
 import { api } from "../api";
 
 type User = {
-  id: string;
+  id: number;
   name: string;
   email: string;
   createdAt: string;
@@ -20,7 +20,7 @@ export async function getUsers(page: number): Promise<GetUsersResponse> {
 
   const users = data.users.map((user) => {
     return {
-      id: user.id,
+      id: Number(user.id),
       name: user.name,
       email: user.email,
       createdAt: new Date(user.createdAt).toLocaleDateString("pt-BR", {
@@ -38,6 +38,6 @@ export function useUsers(page: number) {
   return useQuery(
     ["users", page],
     () => getUsers(page),
-    { staleTime: 1000 * 5 } // 5 seconds
+    { staleTime: 1000 * 60 * 10 } // 10 minutes
   );
 }
