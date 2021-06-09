@@ -17,7 +17,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "react-query";
 import { api } from "../../services/api";
-import { queryClient } from "../../services/QueryClient";
+import { queryClient } from "../../services/queryClient";
 import { useRouter } from "next/router";
 
 interface CreateUserFormData {

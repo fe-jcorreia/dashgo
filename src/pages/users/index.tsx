@@ -22,11 +22,10 @@ import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
-import { getUsers, useUsers } from "../../services/hooks/useUsers";
+import { useUsers } from "../../services/hooks/useUsers";
 import { useState } from "react";
-import { queryClient } from "../../services/QueryClient";
+import { queryClient } from "../../services/queryClient";
 import { api } from "../../services/api";
-import { GetServerSideProps } from "next";
 
 export default function UserList() {
   const [page, setPage] = useState(1);
